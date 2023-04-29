@@ -212,6 +212,11 @@ void
 AsfStrategy::beforeSatisfyInterest(const Data& data, const FaceEndpoint& ingress,
                                    const shared_ptr<pit::Entry>& pitEntry)
 {
+  // Check if data has Content (value_size will always check hasContent)
+  size_t data_len = data.getContent().value_size();
+  float data_len_final = static_cast<float>(data_len);
+  NFD_LOG_DEBUG(pitEntry->getName() << " data from=" << ingress << " packet_size = " << std::to_string(data_len_final));
+
   NamespaceInfo* namespaceInfo = m_measurements.getNamespaceInfo(pitEntry->getName());
   if (namespaceInfo == nullptr) {
     NFD_LOG_DEBUG(pitEntry->getName() << " data from=" << ingress << " no-measurements");
@@ -231,6 +236,8 @@ AsfStrategy::beforeSatisfyInterest(const Data& data, const FaceEndpoint& ingress
   }
   else {
     faceInfo->recordRtt(time::steady_clock::now() - outRecord->getLastRenewed());
+    float real_rtt = ( faceInfo->getSrtt() ).count();
+    
     NFD_LOG_DEBUG(pitEntry->getName() << " data from=" << ingress
                   << " rtt=" << faceInfo->getLastRtt() << " srtt=" << faceInfo->getSrtt());
     NFD_LOG_DEBUG(pitEntry->getName() << " Ade-Debug data from=" << ingress
@@ -346,7 +353,7 @@ struct FaceStatsCompare
   }
 
 private:
-  static time::nanoseconds
+  static float
   getValueForSorting(const FaceStats& stats)
   {
     // These values allow faces with no measurements to be ranked better than timeouts
@@ -388,11 +395,11 @@ AsfStrategy::getBestFaceForForwarding(const Interest& interest, const Face& inFa
 
     const FaceInfo* info = m_measurements.getFaceInfo(fibEntry, interest.getName(), nh.getFace().getId());
     if (info == nullptr) {
-      rankedFaces.insert({&nh.getFace(), FaceInfo::RTT_NO_MEASUREMENT,
+      rankedFaces.insert({&nh.getFace(), 0, FaceInfo::RTT_NO_MEASUREMENT,
                           FaceInfo::RTT_NO_MEASUREMENT, nh.getCost()});
     }
     else {
-      rankedFaces.insert({&nh.getFace(), info->getLastRtt(), info->getSrtt(), nh.getCost()});
+      rankedFaces.insert({&nh.getFace(), info->getLastNF(), info->getLastRtt(), info->getSrtt(), nh.getCost()});
     }
   }
 

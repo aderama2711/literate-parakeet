@@ -102,12 +102,6 @@ public:
     return getLastRtt() == RTT_TIMEOUT;
   }
 
-  time::nanoseconds
-  getLastRtt() const
-  {
-    return m_lastRtt;
-  }
-
   float 
   getLastThg() const
   {
