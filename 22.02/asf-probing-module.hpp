@@ -1,6 +1,6 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 /*
- * Copyright (c) 2014-2022,  Regents of the University of California,
+ * Copyright (c) 2014-2021,  Regents of the University of California,
  *                           Arizona Board of Regents,
  *                           Colorado State University,
  *                           University Pierre & Marie Curie, Sorbonne University,
@@ -28,7 +28,9 @@
 
 #include "asf-measurements.hpp"
 
-namespace nfd::fw::asf {
+namespace nfd {
+namespace fw {
+namespace asf {
 
 /** \brief ASF Probing Module
  */
@@ -52,7 +54,7 @@ public:
   afterForwardingProbe(const fib::Entry& fibEntry, const Name& interestName);
 
   void
-  setProbingInterval(time::milliseconds probingInterval);
+  setProbingInterval(size_t probingInterval);
 
   time::milliseconds
   getProbingInterval() const
@@ -73,7 +75,6 @@ private:
       const FaceInfo& rhs = *rightPair.first;
 
       // Sort by RTT: if a face has timed-out, rank it behind non-timed-out faces
-      //return (!lhs.hasTimeout() && rhs.hasTimeout()) || (lhs.hasTimeout() == rhs.hasTimeout() && lhs.getSrtt() < rhs.getSrtt());
       return (!lhs.hasTimeout() && rhs.hasTimeout()) ||
              (lhs.hasTimeout() == rhs.hasTimeout() && lhs.getLastNF() < rhs.getLastNF());
     }
@@ -96,6 +97,8 @@ private:
   AsfMeasurements& m_measurements;
 };
 
-} // namespace nfd::fw::asf
+} // namespace asf
+} // namespace fw
+} // namespace nfd
 
 #endif // NFD_DAEMON_FW_ASF_PROBING_MODULE_HPP
