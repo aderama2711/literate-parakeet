@@ -247,7 +247,6 @@ AsfStrategy::beforeSatisfyInterest(const Data& data, const FaceEndpoint& ingress
     
     NFD_LOG_DEBUG(pitEntry->getName() << " Ade-Debug data from=" << ingress
                   << " Thg=" << std::to_string(Thg));
-    faceInfo->recordThg( Thg );
     long int rtt = real_rtt / 1000000;
     
     uint64_t probe = faceInfo->getProbe();
@@ -263,7 +262,7 @@ AsfStrategy::beforeSatisfyInterest(const Data& data, const FaceEndpoint& ingress
   // Extend lifetime for measurements associated with Face
   namespaceInfo->extendFaceInfoLifetime(*faceInfo, ingress.face.getId());
   // Extend PIT entry timer to allow slower probes to arrive
-  this->setExpiryTimer(pitEntry, 50_ms);
+  this->setExpiryTimer(pitEntry, 100_ms);
   faceInfo->cancelTimeout(data.getName());
 }
 
