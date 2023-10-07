@@ -145,10 +145,10 @@ AsfStrategy::afterReceiveInterest(const Interest& interest, const FaceEndpoint& 
         }
       }
       if (!edited){
-        Send newSend;
-        newSend.key = interest.getName();
-        newSend.value = 1;
-        popularityVector.push_back(newSend);
+        Popularity newPopularity;
+        newPopularity.key = interest.getName();
+        newPopularity.value = 1;
+        popularityVector.push_back(newPopularity);
       }
 
       uint64_t popularity = 0.0;
@@ -240,10 +240,10 @@ AsfStrategy::afterReceiveInterest(const Interest& interest, const FaceEndpoint& 
         }
       }
       if (!edited){
-        Send newSend;
-        newSend.key = outFace.getId();
-        newSend.value = 1;
-        loadVector.push_back(newSend);
+        Load newLoad;
+        newLoad.key = outFace.getId();
+        newLoad.value = 1;
+        loadVector.push_back(newLoad);
       }
 
       uint64_t load = 0.0;
@@ -420,10 +420,10 @@ AsfStrategy::forwardInterest(const Interest& interest, Face& outFace, const fib:
         }
       }
       if (!edited){
-        Send newSend;
-        newSend.key = outFace.getId();
-        newSend.value = 1;
-        loadVector.push_back(newSend);
+        Load newLoad;
+        newLoad.key = outFace.getId();
+        newLoad.value = 1;
+        loadVector.push_back(newLoad);
       }
 
       uint64_t load = 0.0;
