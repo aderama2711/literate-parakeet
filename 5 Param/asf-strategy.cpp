@@ -231,7 +231,7 @@ AsfStrategy::afterReceiveInterest(const Interest& interest, const FaceEndpoint& 
         sendVector.push_back(newSend);
       }
 
-    bool edited = false;
+    edited = false;
       for (size_t i = 0; i < loadVector.size(); i++){
         if (loadVector[i].key == outFace.getId()){
                 loadVector[i].value = loadVector[i].value+1;
@@ -411,7 +411,7 @@ AsfStrategy::forwardInterest(const Interest& interest, Face& outFace, const fib:
         sendVector.push_back(newSend);
       }
 
-      bool edited = false;
+      edited = false;
       for (size_t i = 0; i < loadVector.size(); i++){
         if (loadVector[i].key == outFace.getId()){
                 loadVector[i].value = loadVector[i].value+1;
@@ -588,7 +588,7 @@ AsfStrategy::onTimeoutOrNack(const Name& interestName, FaceId faceId, bool isNac
         errorVector.push_back(newError);
       }
 
-  bool edited = false;
+   edited = false;
       for (size_t i = 0; i < loadVector.size(); i++){
         if (loadVector[i].key == faceId){
                 loadVector[i].value = loadVector[i].value-1;
