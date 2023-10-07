@@ -46,7 +46,7 @@ struct Load {
 };
 
 struct Popularity {
-        std::string key;
+        ndn::Name key;
         long unsigned int value;
 };
 
@@ -328,10 +328,10 @@ AsfStrategy::beforeSatisfyInterest(const Data& data, const FaceEndpoint& ingress
         }
       }
       if (!edited){
-        Send newSend;
-        newSend.key = ingress.face.getId();
-        newSend.value = 1;
-        loadVector.push_back(newSend);
+        Load newLoad;
+        newLoad.key = ingress.face.getId();
+        newLoad.value = 1;
+        loadVector.push_back(newLoad);
       }
     
       for (size_t i = 0; i < sendVector.size(); i++){
