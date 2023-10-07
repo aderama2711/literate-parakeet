@@ -597,10 +597,10 @@ AsfStrategy::onTimeoutOrNack(const Name& interestName, FaceId faceId, bool isNac
         }
       }
       if (!edited){
-        Send newSend;
-        newSend.key = faceId;
-        newSend.value = 1;
-        loadVector.push_back(newSend);
+        Load newLoad;
+        newLoad.key = faceId;
+        newLoad.value = 1;
+        loadVector.push_back(newLoad);
       }
 
       uint64_t load = 0.0;
